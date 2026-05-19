@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coming Soon — T4n Labs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,500&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --midnight-900: #050a08;
+      --midnight-800: #0a1210;
+      --midnight-700: #0f1a16;
+      --midnight-600: #14221d;
+      --forest-900: #1a3a2a;
+      --forest-800: #1e4d34;
+      --forest-700: #266b45;
+      --forest-600: #2d8a56;
+      --forest-500: #40916c;
+      --forest-400: #52b788;
+      --forest-300: #74c69d;
+      --forest-200: #95d5b2;
+      --forest-100: #b7e4c7;
+      --forest-50:  #d8f3dc;
+      --accent: #52b788;
+      --accent-glow: rgba(82, 183, 136, 0.35);
+      --text-primary: #e8f5ee;
+      --text-secondary: #95d5b2;
+      --text-muted: #5a8a72;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--midnight-900);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ============ BACKGROUND LAYERS ============ */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bg-gradient {
+      background: 
+        radial-gradient(ellipse 80% 60% at 20% 80%, rgba(30, 77, 52, 0.25) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(82, 183, 136, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 100% 100% at 50% 50%, var(--midnight-800) 0%, var(--midnight-900) 100%);
+    }
+
+    .bg-noise {
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 128px 128px;
+    }
+
+    .bg-fog {
+      background:
+        radial-gradient(ellipse 50% 30% at 30% 90%, rgba(82, 183, 136, 0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 25% at 70% 85%, rgba(116, 198, 157, 0.04) 0%, transparent 60%);
+      animation: fogDrift 12s ease-in-out infinite alternate;
+    }
+    @keyframes fogDrift {
+      0%   { transform: translateX(-20px) scale(1); }
+      100% { transform: translateX(20px) scale(1.05); }
+    }
+
+    .bg-vignette {
+      background: radial-gradient(ellipse 70% 70% at 50% 50%, transparent 40%, rgba(5, 10, 8, 0.7) 100%);
+    }
+
+    /* ============ FIREFLIES CANVAS ============ */
+    #fireflies {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ============ TREE SILHOUETTES ============ */
+    .trees-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1;
+      pointer-events: none;
+      height: 35vh;
+      min-height: 200px;
+    }
+
+    .tree-layer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .tree-layer-back {
+      opacity: 0.12;
+      height: 100%;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 400' preserveAspectRatio='none'%3E%3Cpath d='M0,400 L0,280 L40,280 L60,200 L80,280 L120,280 L140,180 L160,280 L200,280 L220,190 L240,280 L280,280 L300,170 L320,280 L360,280 L380,200 L400,280 L440,280 L460,160 L480,280 L520,280 L540,210 L560,280 L600,280 L620,175 L640,280 L680,280 L700,195 L720,280 L760,280 L780,165 L800,280 L840,280 L860,205 L880,280 L920,280 L940,185 L960,280 L1000,280 L1020,170 L1040,280 L1080,280 L1100,200 L1120,280 L1160,280 L1180,175 L1200,280 L1240,280 L1260,195 L1280,280 L1320,280 L1340,180 L1360,280 L1400,280 L1420,200 L1440,280 L1440,400 Z' fill='%2326bf7f'/%3E%3C/svg%3E") no-repeat bottom center;
+      background-size: 100% 100%;
+    }
+
+    .tree-layer-front {
+      opacity: 0.2;
+      height: 80%;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 350' preserveAspectRatio='none'%3E%3Cpath d='M0,350 L0,300 L30,300 L50,240 L70,300 L110,300 L130,220 L150,300 L190,300 L210,250 L230,300 L270,300 L290,200 L310,300 L350,300 L370,245 L390,300 L430,300 L450,210 L470,300 L510,300 L530,255 L550,300 L590,300 L610,215 L630,300 L670,300 L690,240 L710,300 L750,300 L770,205 L790,300 L830,300 L850,250 L870,300 L910,300 L930,220 L950,300 L990,300 L1010,210 L1030,300 L1070,300 L1090,245 L1110,300 L1150,300 L1170,215 L1190,300 L1230,300 L1250,240 L1270,300 L1310,300 L1330,200 L1350,300 L1390,300 L1410,235 L1430,300 L1440,300 L1440,350 Z' fill='%231a7a52'/%3E%3C/svg%3E") no-repeat bottom center;
+      background-size: 100% 100%;
+    }
+
+    /* ============ MAIN CONTENT ============ */
+    main {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px 60px;
+      text-align: center;
+    }
+
+    /* ============ LOGO ============ */
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 48px;
+      animation: fadeSlideDown 1s ease-out;
+    }
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--forest-500), var(--forest-300));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--midnight-900);
+      font-size: 20px;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+    .logo-text {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    /* ============ BADGE ============ */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 100px;
+      border: 1px solid rgba(82, 183, 136, 0.2);
+      background: rgba(82, 183, 136, 0.06);
+      backdrop-filter: blur(12px);
+      margin-bottom: 32px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--forest-300);
+      animation: fadeSlideDown 1s ease-out 0.15s both;
+    }
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--forest-400);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* ============ TITLE ============ */
+    .title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(48px, 10vw, 120px);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      animation: fadeSlideDown 1s ease-out 0.3s both;
+    }
+    .title .green {
+      background: linear-gradient(135deg, var(--forest-300), var(--forest-500), var(--forest-400));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .title-sub {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(16px, 3vw, 28px);
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      animation: fadeSlideDown 1s ease-out 0.45s both;
+    }
+
+    /* ============ DESCRIPTION ============ */
+    .description {
+      max-width: 520px;
+      font-size: clamp(14px, 2vw, 16px);
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 48px;
+      opacity: 0.85;
+      animation: fadeSlideDown 1s ease-out 0.55s both;
+    }
+
+    /* ============ DIVIDER LINE ============ */
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--forest-500), transparent);
+      margin-bottom: 48px;
+      animation: fadeSlideDown 1s ease-out 0.65s both;
+    }
+
+    /* ============ SOCIAL LINKS ============ */
+    .socials {
+      display: flex;
+      gap: 12px;
+      animation: fadeSlideDown 1s ease-out 0.75s both;
+    }
+    .social-link {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      border: 1px solid rgba(82, 183, 136, 0.12);
+      background: rgba(82, 183, 136, 0.04);
+      color: var(--text-muted);
+      font-size: 18px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .social-link:hover {
+      background: rgba(82, 183, 136, 0.12);
+      border-color: rgba(82, 183, 136, 0.3);
+      color: var(--forest-300);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(82, 183, 136, 0.12);
+    }
+
+    /* ============ FOOTER ============ */
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      padding: 16px 24px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      opacity: 0.6;
+      letter-spacing: 0.02em;
+      pointer-events: none;
+    }
+
+    /* ============ LEAF PARTICLES ============ */
+    .leaf {
+      position: fixed;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0;
+      color: var(--forest-500);
+      font-size: 16px;
+      animation: leafFall linear infinite;
+    }
+    @keyframes leafFall {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px) rotate(0deg) translateX(0);
+      }
+      10% { opacity: 0.4; }
+      90% { opacity: 0.4; }
+      100% {
+        opacity: 0;
+        transform: translateY(100vh) rotate(360deg) translateX(80px);
+      }
+    }
+
+    /* ============ ANIMATIONS ============ */
+    @keyframes fadeSlideDown {
+      0%   { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* ============ SCROLL INDICATOR ============ */
+    .scroll-hint {
+      position: fixed;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeSlideDown 1s ease-out 1s both;
+      pointer-events: none;
+    }
+    .scroll-mouse {
+      width: 22px;
+      height: 34px;
+      border: 2px solid rgba(82, 183, 136, 0.3);
+      border-radius: 11px;
+      position: relative;
+    }
+    .scroll-mouse::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 8px;
+      background: var(--forest-400);
+      border-radius: 2px;
+      animation: scrollWheel 2s ease-in-out infinite;
+    }
+    @keyframes scrollWheel {
+      0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(12px); }
+    }
+    .scroll-text {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 640px) {
+      main {
+        padding: 32px 20px 80px;
+      }
+      .trees-container {
+        height: 25vh;
+        min-height: 150px;
+      }
+      .scroll-hint { display: none; }
+      footer { display: none; }
+    }
+
+    @media (min-width: 1024px) {
+      main { padding: 40px 24px 80px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Layers -->
+  <div class="bg-layer bg-gradient"></div>
+  <div class="bg-layer bg-noise"></div>
+  <div class="bg-layer bg-fog"></div>
+  <div class="bg-layer bg-vignette"></div>
+
+  <!-- Fireflies Canvas -->
+  <canvas id="fireflies"></canvas>
+
+  <!-- Tree Silhouettes -->
+  <div class="trees-container">
+    <div class="tree-layer tree-layer-back"></div>
+    <div class="tree-layer tree-layer-front"></div>
+  </div>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Logo -->
+    <div class="logo">
+      <div class="logo-icon">
+        <iconify-icon icon="lucide:flask-conical"></iconify-icon>
+      </div>
+      <span class="logo-text">T4n Labs</span>
+    </div>
+
+    <!-- Badge -->
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Sedang Dalam Pengembangan
+    </div>
+
+    <!-- Title -->
+    <h1 class="title">
+      Coming<br><span class="green">Soon</span>
+    </h1>
+    <p class="title-sub">Sesuatu yang luar biasa sedang tumbuh...</p>
+
+    <!-- Description -->
+    <p class="description">
+      Kami sedang merangkai pengalaman digital yang terinspirasi dari keharmonisan hutan. 
+      Nantikan kehadiran kami dalam waktu dekat.
+    </p>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Social Links -->
+    <!--
+    <div class="socials">
+      <a href="#" class="social-link" aria-label="Instagram">
+        <iconify-icon icon="lucide:instagram"></iconify-icon>
+      </a>
+      <a href="#" class="social-link" aria-label="Twitter">
+        <iconify-icon icon="lucide:twitter"></iconify-icon>
+      </a>
+      <a href="#" class="social-link" aria-label="Facebook">
+        <iconify-icon icon="lucide:facebook"></iconify-icon>
+      </a>
+      <a href="#" class="social-link" aria-label="Github">
+        <iconify-icon icon="lucide:github"></iconify-icon>
+      </a>
+      <a href="#" class="social-link" aria-label="Linkedin">
+        <iconify-icon icon="lucide:linkedin"></iconify-icon>
+      </a>
+    </div>
+  </main>
+  -->
+
+  <!-- Scroll Hint -->
+  <div class="scroll-hint">
+    <div class="scroll-mouse"></div>
+    <span class="scroll-text">Scroll</span>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2026 T4n Labs.
+  </footer>
+
+  <script>
+    // ============ FIREFLIES ============
+    const canvas = document.getElementById('fireflies');
+    const ctx = canvas.getContext('2d');
+    let fireflies = [];
+    let animFrame;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    class Firefly {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2.5 + 0.8;
+        this.speedX = (Math.random() - 0.5) * 0.4;
+        this.speedY = (Math.random() - 0.5) * 0.3;
+        this.opacity = Math.random();
+        this.opacitySpeed = (Math.random() * 0.008 + 0.003) * (Math.random() > 0.5 ? 1 : -1);
+        this.hue = 140 + Math.random() * 30;
+        this.saturation = 60 + Math.random() * 30;
+        this.lightness = 55 + Math.random() * 20;
+      }
+      update() {
+        this.x += this.speedX + Math.sin(Date.now() * 0.001 + this.y * 0.01) * 0.15;
+        this.y += this.speedY + Math.cos(Date.now() * 0.001 + this.x * 0.01) * 0.1;
+        this.opacity += this.opacitySpeed;
+        if (this.opacity >= 1 || this.opacity <= 0) {
+          this.opacitySpeed *= -1;
+          this.opacity = Math.max(0, Math.min(1, this.opacity));
+        }
+        if (this.x < -20 || this.x > canvas.width + 20 || this.y < -20 || this.y > canvas.height + 20) {
+          this.reset();
+        }
+      }
+      draw() {
+        const glowSize = this.size * 6;
+        const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, glowSize);
+        gradient.addColorStop(0, `hsla(${this.hue}, ${this.saturation}%, ${this.lightness}%, ${this.opacity * 0.6})`);
+        gradient.addColorStop(0.3, `hsla(${this.hue}, ${this.saturation}%, ${this.lightness}%, ${this.opacity * 0.15})`);
+        gradient.addColorStop(1, `hsla(${this.hue}, ${this.saturation}%, ${this.lightness}%, 0)`);
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, glowSize, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * 0.5, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${this.hue}, 80%, 85%, ${this.opacity * 0.9})`;
+        ctx.fill();
+      }
+    }
+
+    function createFireflies() {
+      const count = Math.min(60, Math.floor((canvas.width * canvas.height) / 18000));
+      fireflies = [];
+      for (let i = 0; i < count; i++) fireflies.push(new Firefly());
+    }
+    createFireflies();
+    window.addEventListener('resize', () => { resizeCanvas(); createFireflies(); });
+
+    function animateFireflies() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      fireflies.forEach(f => { f.update(); f.draw(); });
+      animFrame = requestAnimationFrame(animateFireflies);
+    }
+    animateFireflies();
+
+    // ============ FLOATING LEAVES ============
+    function createLeaf() {
+      const leaf = document.createElement('div');
+      leaf.className = 'leaf';
+      leaf.innerHTML = '🍃';
+      leaf.style.left = Math.random() * 100 + 'vw';
+      leaf.style.fontSize = (12 + Math.random() * 10) + 'px';
+      leaf.style.animationDuration = (8 + Math.random() * 12) + 's';
+      leaf.style.animationDelay = Math.random() * 5 + 's';
+      leaf.style.opacity = '0';
+      document.body.appendChild(leaf);
+      const duration = parseFloat(leaf.style.animationDuration) + parseFloat(leaf.style.animationDelay);
+      setTimeout(() => leaf.remove(), duration * 1000 + 1000);
+    }
+
+    function scheduleLeaf() {
+      createLeaf();
+      setTimeout(scheduleLeaf, 3000 + Math.random() * 5000);
+    }
+    for (let i = 0; i < 4; i++) setTimeout(createLeaf, i * 800);
+    setTimeout(scheduleLeaf, 5000);
+
+    // ============ MOUSE PARALLAX (Desktop only) ============
+    if (window.matchMedia('(pointer: fine)').matches) {
+      const mainEl = document.querySelector('main');
+      document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 2;
+        const y = (e.clientY / window.innerHeight - 0.5) * 2;
+        mainEl.style.transform = `translate(${x * -3}px, ${y * -3}px)`;
+        mainEl.style.transition = 'transform 0.3s ease-out';
+      });
+    }
+
+    // ============ REDUCE MOTION ============
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      cancelAnimationFrame(animFrame);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      document.querySelectorAll('.leaf').forEach(l => l.remove());
+      document.querySelector('.bg-fog').style.animation = 'none';
+    }
+  </script>
+</body>
+</html>
